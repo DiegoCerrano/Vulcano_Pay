@@ -1,0 +1,11 @@
+# Entornos virtuales y caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Logs generados por el sistema (incluye los rotados y comprimidos)
+logs/
+*.log
+*.log.*.gz
+# Secretos: nunca se suben al repositorio
+.env
