@@ -17,7 +17,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
 import requests
-from vulcano_telemetry import app_operator
+import app_operator
 
 from vulcano_telemetry import (
     SIGNATURE_HEADER,

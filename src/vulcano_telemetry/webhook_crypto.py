@@ -24,7 +24,7 @@ def generate_signature(
     """Compute the HMAC-SHA256 signature of a Webhook.
 
     Args:
-        secret: Sharet secret key.
+        secret: Shared secret key.
         timestamp: Unix timestamp seconds that will travel in the header.
         payload_bytes: Exact bytes of the HTTP body.
 
@@ -52,7 +52,7 @@ def build_signature_header(
         timestamp: Unix timestamp to sign. Defaults to "now".
 
     Returns:
-        A string like ''"t=1700000000,v=ab12...''.
+        A string like ``"t=1700000000,v1=ab12..."``.
     """
 
     if timestamp is None:
@@ -66,11 +66,11 @@ def parse_signature_header(header_value: str) -> tuple[int, str]:
     """
     Extract 't' and 'v1' from an "X-Webhook-Signature" header.
 
-    Args: 
+    Args:
         header_value: Raw header, e.g. "t=1700000,v1=ab12..."
 
     Returns:
-        A tuple ''(timestamp, signature)''.
+        A tuple ``(timestamp, signature)``.
 
     Raises:
         WebhookSignatureError: If the header is empty or malformed.
@@ -96,13 +96,13 @@ def verify_signature(
         tolerance_sec: int = DEFAULT_TOLERANCE_SECONDS,
 ) -> bool:
     """
-    Verfiy an uncoming webhook signature.
+    Verify an incoming webhook signature.
 
     Two attacks are mitigated here.
 
-    * **Replay attacks**: the timestamp must be within 
-    ''tolerance_sec'' of the current time.
-    * **Timig attacks**: the comparision uses ''hmac.compare_digest'',
+    * **Replay attacks**: the timestamp must be within
+    ``tolerance_sec`` of the current time.
+    * **Timing attacks**: the comparison uses ``hmac.compare_digest``,
     which takes the same time no matter where the two strings differ.
 
     Args:
@@ -129,7 +129,7 @@ def verify_signature(
 
     if difference > tolerance_sec:
         raise WebhookTimestampError(
-            f"Timestamp outside tolerance ({difference}s > {tolerance_sec}s)"
+            f"Timestamp outside tolerance ({difference}s > {tolerance_sec}s)."
         )
 
     # 2) Anti-Timing

@@ -11,7 +11,7 @@ VulcanoError
 +-- QueueTimeoutError       (SQS did not answer in time)
 +-- CorruptedMessageError   (SQS message body is not a valid JSON object)
 +-- WebhookSignatureError   (HMAC signature missing, malformed or wrong)
-+-- WebhookTimestampError   (timestamp outside the tolerance window) 
++-- WebhookTimestampError   (timestamp outside the tolerance window)
 +-- WebhookDeliveryError    (outgoing HTTP POST failed)
 
 """

@@ -69,7 +69,9 @@ tests/
 └── test_forensic_log.py
 
 tools/
-└── destino_demo.py
+├── demo.py
+├── destino_demo.py
+└── enviar_webhook.py
 ```
 
 ## Getting started
@@ -78,7 +80,7 @@ tools/
 
 ```bash
 git clone https://github.com/DiegoCerrano/Vulcano_Pay.git
-cd vulcano-pay
+cd Vulcano_Pay
 
 python -m venv .venv
 source .venv/bin/activate
@@ -106,7 +108,8 @@ python src/app_operator.py start-receiver
 
 ### 5. Start the destination demo
 
-In another terminal:
+In another terminal (this is only the destination server; the script that
+runs the whole demo is `tools/demo.py`, see below):
 
 ```bash
 python tools/destino_demo.py
@@ -124,6 +127,23 @@ python src/app_operator.py start-dispatcher \
 ```bash
 python src/app_operator.py produce-sqs \
   --topic payment.completed
+```
+
+### 8. Send signed webhooks (valid and attacks)
+
+```bash
+python tools/enviar_webhook.py              # valid -> HTTP 202
+python tools/enviar_webhook.py --adulterar  # body changed after signing -> 401
+python tools/enviar_webhook.py --viejo      # timestamp from 1 hour ago -> 401
+```
+
+### One-command demo
+
+With LocalStack running and `VULCANO_WEBHOOK_SECRET` exported, this starts the
+destination, the receiver and the dispatcher, and sends the three scenarios:
+
+```bash
+python tools/demo.py
 ```
 
 ## Testing

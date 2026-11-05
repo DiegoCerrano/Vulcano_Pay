@@ -1,9 +1,9 @@
 """
-SQS access layer built on Boto3 and Local Stack.
+SQS access layer built on Boto3 and LocalStack.
 
 Everything that talks to SQS lives here. Boto3 raises two
 unrelated families of errors ("ClientError" for API errors
-and "BotoCoreError" for networks problems.); This module translates
+and "BotoCoreError" for network problems); this module translates
 both into the engine's own exceptions so the rest of the code only
 deals with :'vulcano_telemetry.exceptions'.
 """
@@ -70,7 +70,9 @@ def get_sqs_client(endpoint_url: str | None = None) -> Any:
 
 
 @contextmanager
-def _translate_boto_errors(action: str, target: str) -> Generator[None, None, None]:
+def _translate_boto_errors(
+    action: str, target: str
+) -> Generator[None, None, None]:
     """Translate Boto3 errors into engine exceptions (context manager).
     Args:
         action: Human readable description, e.g. ``"send a message"``.
@@ -81,7 +83,8 @@ def _translate_boto_errors(action: str, target: str) -> Generator[None, None, No
     """
     try:
         yield
-        # Orden importante: los timeouts son subclases de BotoCoreError, así que
+        # Orden importante: los timeouts son subclases de BotoCoreError,
+        # así que
         # deben capturarse ANTES que la clase general.
     except (ConnectTimeoutError, ReadTimeoutError) as err:
         timeout_error = QueueTimeoutError(f"Timeout while trying to {action}.")

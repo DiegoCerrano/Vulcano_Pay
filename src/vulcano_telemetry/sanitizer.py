@@ -18,12 +18,15 @@ MIN_SECRET_LENGTH = 16
 
 def parse_queue_name(value: str) -> str:
     """Validate an SQS queue name against ``vulcano-<name>-queue``.
+
     Args:
-    value: Raw queue name received from the command line.
+        value: Raw queue name received from the command line.
+
     Returns:
-    The same queue name, once validated.
+        The same queue name, once validated.
+
     Raises:
-    argparse.ArgumentTypeError: If the name does not match the pattern.
+        argparse.ArgumentTypeError: If the name does not match the pattern.
     """
 
     if not QUEUE_NAME_PATTERN.fullmatch(value):
@@ -37,12 +40,15 @@ def parse_queue_name(value: str) -> str:
 
 def parse_wait_time(value: str) -> int:
     """Validate the Long Polling wait time (``WaitTimeSeconds``).
+
     Args:
-    value: Raw number of seconds received from the command line.
+        value: Raw number of seconds received from the command line.
+
     Returns:
-    The wait time as an integer between 1 and 20.
+        The wait time as an integer between 1 and 20.
+
     Raises:
-    argparse.ArgumentTypeError: If it is not an integer in [1, 20].
+        argparse.ArgumentTypeError: If it is not an integer in [1, 20].
     """
     try:
         seconds = int(value)
@@ -61,13 +67,16 @@ def parse_wait_time(value: str) -> int:
 
 def parse_webhook_url(value: str) -> str:
     """Validate that a URL is an absolute HTTP or HTTPS URL.
+
     Args:
-    value: Raw URL received from the command line.
+        value: Raw URL received from the command line.
+
     Returns:
-    The same URL, once validated.
+        The same URL, once validated.
+
     Raises:
-    argparse.ArgumentTypeError: If the scheme is not http/https or the
-    host is missing.
+        argparse.ArgumentTypeError: If the scheme is not http/https or the
+        host is missing.
     """
     parsed = urlparse(value)
     if parsed.scheme not in ("http", "https") or not parsed.hostname:
@@ -80,12 +89,15 @@ def parse_webhook_url(value: str) -> str:
 
 def parse_secret_key(value: str) -> str:
     """Validate the minimum length of the HMAC secret key.
+
     Args:
-    value: Raw secret received from the command line or environment.
+        value: Raw secret received from the command line or environment.
+
     Returns:
-    The same secret, once validated.
+        The same secret, once validated.
+
     Raises:
-    argparse.ArgumentTypeError: If it has fewer than 16 characters.
+        argparse.ArgumentTypeError: If it has fewer than 16 characters.
     """
     if len(value) < MIN_SECRET_LENGTH:
         raise argparse.ArgumentTypeError(
@@ -100,12 +112,15 @@ def parse_secret_key(value: str) -> str:
 
 def parse_port(value: str) -> int:
     """Validate a TCP port number.
+
     Args:
-    value: Raw port received from the command line.
+        value: Raw port received from the command line.
+
     Returns:
-    The port as an integer between 1 and 65535.
+        The port as an integer between 1 and 65535.
+
     Raises:
-    argparse.ArgumentTypeError: If it is not an integer in [1, 65535].
+        argparse.ArgumentTypeError: If it is not an integer in [1, 65535].
     """
 
     try:
@@ -124,12 +139,15 @@ def parse_port(value: str) -> int:
 
 def parse_json_object(value: str) -> dict[str, Any]:
     """Validate that a string is a JSON *object* (not a list or a scalar).
+
     Args:
-    value: Raw JSON text received from the command line.
+        value: Raw JSON text received from the command line.
+
     Returns:
-    The decoded dictionary.
+        The decoded dictionary.
+
     Raises:
-    argparse.ArgumentTypeError: If it is not valid JSON or not an object.
+        argparse.ArgumentTypeError: If it is not valid JSON or not an object.
     """
     try:
         data = json.loads(value)
