@@ -8,4 +8,4 @@ logs/
 *.log
 *.log.*.gz
 # Secretos: nunca se suben al repositorio
-.env
+.env.DS_Store
